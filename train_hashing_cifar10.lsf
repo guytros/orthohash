@@ -1,0 +1,13 @@
+#BSUB -J train_hashing_cifar10
+#BSUB -oo /home/projects/ronen/Collaboration/Projects/point_tracks_embedder/guytr/experiments/orthohash/output_%J_%I.txt
+#BSUB -eo /home/projects/ronen/Collaboration/Projects/point_tracks_embedder/guytr/experiments/orthohash/err_%J_%I.txt
+#BSUB -q "waic-long"
+#BSUB -gpu num=1:j_exclusive=yes:gmem=40G
+#BSUB -R rusage[mem=64000]
+#BSUB -R affinity[thread*16]
+source /apps/RH7U2/gnu/anaconda/2020.11/python/3.8/etc/profile.d/conda.sh
+/bin/bash
+ml CUDA/11.8.0
+conda activate /home/projects/ronen/guytr/.conda/envs/guytr_conda_env/envs/rapids-24.12
+cd /home/projects/ronen/guytr/projects/point_tracks_embedder/orthohash
+PYTHONPATH="/home/projects/ronen/guytr/projects/point_tracks_embedder/orthohash" python main.py --codebook-method B --ds cifar10 --margin 0.3 --seed 59495 --logdir /home/projects/ronen/Collaboration/Projects/point_tracks_embedder/guytr/experiments/orthohash

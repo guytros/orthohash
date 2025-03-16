@@ -42,6 +42,8 @@ parser.add_argument('--seed', default=torch.randint(100000, size=()).item(), hel
 
 parser.add_argument('--device', default='cuda:0')
 
+parser.add_argument('--logdir', default='/home/projects/ronen/Collaboration/Projects/point_tracks_embedder/guytr/experiments/orthohash', help='root directory for dataset')
+
 args = parser.parse_args()
 
 config = {
@@ -55,6 +57,7 @@ config = {
     'batch_size': args.bs,
     'dataset': args.ds,
     'multiclass': args.ds == 'nuswide',
+    'n_workers': 4,
     'dataset_kwargs': {
         'resize': 256 if args.ds in ['nuswide'] else 224,
         'crop': 224,
@@ -93,13 +96,15 @@ config = {
     'quan': args.quan,
     'quan_type': args.quan_type,
     'multiclass_loss': args.multiclass_loss,
-    'device': args.device
+    'device': args.device,
+    'logdir': args.logdir,
 }
 
 config['arch_kwargs']['nclass'] = configs.nclass(config)
 config['R'] = configs.R(config)
 
-logdir = (f'logs/{config["arch"]}{config["arch_kwargs"]["nbit"]}_'
+logdir = config['logdir'] + '/'
+logdir += (f'logs/{config["arch"]}{config["arch_kwargs"]["nbit"]}_'
           f'{config["dataset"]}_{config["dataset_kwargs"]["evaluation_protocol"]}_'
           f'{config["epochs"]}_'
           f'{config["optim_kwargs"]["lr"]}_'

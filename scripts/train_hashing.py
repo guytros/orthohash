@@ -215,9 +215,9 @@ def prepare_dataloader(config):
     logging.info(f'Number of DB data: {len(db_dataset)}')
     logging.info(f'Number of Train data: {len(train_dataset)}')
 
-    train_loader = configs.dataloader(train_dataset, config['batch_size'])
-    test_loader = configs.dataloader(test_dataset, config['batch_size'], shuffle=False, drop_last=False)
-    db_loader = configs.dataloader(db_dataset, config['batch_size'], shuffle=False, drop_last=False)
+    train_loader = configs.dataloader(train_dataset, config['batch_size'], workers=config['n_workers'])
+    test_loader = configs.dataloader(test_dataset, config['batch_size'], workers=config['n_workers'], shuffle=False, drop_last=False)
+    db_loader = configs.dataloader(db_dataset, config['batch_size'], workers=config['n_workers'], shuffle=False, drop_last=False)
 
     return train_loader, test_loader, db_loader
 

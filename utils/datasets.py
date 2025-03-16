@@ -117,7 +117,7 @@ def cifar(nclass, **kwargs):
 
     if not load_data:
         print(f'Loading {path}')
-        data_index = torch.load(path)
+        data_index = torch.load(path, weights_only=False)
     else:
         train_data_index = []
         query_data_index = []
